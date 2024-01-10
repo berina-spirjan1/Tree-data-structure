@@ -1,0 +1,3 @@
+/Users/berinaspirjan/Desktop/projekat/cmake-build-debug/CMakeFiles/projekat.dir
+/Users/berinaspirjan/Desktop/projekat/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/berinaspirjan/Desktop/projekat/cmake-build-debug/CMakeFiles/rebuild_cache.dir
