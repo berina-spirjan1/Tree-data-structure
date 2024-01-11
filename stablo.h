@@ -47,6 +47,10 @@ public:
     Cvor *Pocetak() const;
 
     Cvor *Sljedbenik(Cvor *cvor) const;
+
+    class Iterator;
+
+    class Reverse_Iterator;
 };
 
 #include "stablo.cpp"

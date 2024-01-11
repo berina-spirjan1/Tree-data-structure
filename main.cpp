@@ -1,5 +1,6 @@
 #include <iostream>
 #include "stablo.h"
+#include "iterator.h"
 
 using namespace std;
 

@@ -155,4 +155,5 @@ void Stablo<Tip>::Erase(const Tip vrijednost) {
     n--;
 }
 
+
 #endif // STABLO_CPP
