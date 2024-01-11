@@ -1,5 +1,6 @@
 #include <iostream>
 #include "stablo.h"
+
 using namespace std;
 
 int main() {
@@ -20,17 +21,17 @@ int main() {
     cout<<endl;
     cout<<s.Visina();
     cout<<endl;*/
-    for(auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
-        cout<<trenutni->element<<" ";
-    cout<<endl;
+    for (auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
+        cout << trenutni->element << " ";
+    cout << endl;
     s.Erase(20);
-    for(auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
-        cout<<trenutni->element<<" ";
-    cout<<endl;
+    for (auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
+        cout << trenutni->element << " ";
+    cout << endl;
     s.Erase(30);
-    for(auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
-        cout<<trenutni->element<<" ";
-    cout<<endl;
+    for (auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
+        cout << trenutni->element << " ";
+    cout << endl;
     s.Erase(10);
     s.Erase(40);
     s.Erase(17);
@@ -39,7 +40,7 @@ int main() {
     s.Erase(0);
     s.Erase(60);
     //s.Erase(50);
-    for(auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
-        cout<<trenutni->element<<" ";
+    for (auto trenutni = s.Pocetak(); trenutni != nullptr; trenutni = s.Sljedbenik(trenutni))
+        cout << trenutni->element << " ";
 
 }
