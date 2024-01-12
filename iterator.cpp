@@ -44,5 +44,27 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
     return *this;
 }
 
+template <typename Tip>
+typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
+    Iterator kopija(this);  // pravimo kopiju trenutnog iteratora
+    if (this->trenutni->dd != nullptr) {
+        // Ako postoji desno dijete od trenutnog cvora, idemo na najmanji element u desnom podstablu
+        this->trenutni = this->trenutni->dd;
+        this->najmanjiNaGrani();
+    } else {
+        // Ako nema desnog djeteta, idemo prema roditelju od trenutnog cvora
+        // sve dok ne dodjemo do prvog lijevog djeteta
+        while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->dd) {
+            this->trenutni = this->trenutni->rod;
+        }
+        // kada dodjemo do korijena iterator ce pokazivati na nullptr, inace se pomjeramo na njegovog roditelja
+        if (this->trenutni->rod != nullptr) {
+            this->trenutni = this->trenutni->rod;
+        }
+    }
+    return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
+}
+
+
 
 #endif // ITERATOR_CPP
