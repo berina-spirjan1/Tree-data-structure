@@ -36,10 +36,10 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
 template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cvor*(Cvor*)> funkcijaPomjeranja) {
     if (this->trenutni == nullptr)
-        return *this; // Ako je trenutni čvor nullptr, nema najmanjeg/najvećeg elementa, vraćamo trenutni iterator
+        return this; // Ako je trenutni čvor nullptr, nema najmanjeg/najvećeg elementa, vraćamo trenutni iterator
     while (funkcijaPomjeranja(this->trenutni) != nullptr)
         this->trenutni = funkcijaPomjeranja(this->trenutni); // Prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najvećeg elementa
-    return *this; // Vraćamo promijenjeni iterator
+    return this; // Vraćamo promijenjeni iterator
 }
 
 template<typename Tip>
@@ -60,7 +60,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
             this->trenutni = this->trenutni->rod;
         }
     }
-    return *this;
+    return this;
 }
 
 template <typename Tip>
