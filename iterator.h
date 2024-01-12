@@ -19,35 +19,27 @@ public:
         return *this;
     }
 
-    Tip &operator*() {
-        return trenutni->element;
-    }
+    Tip &operator*() { return trenutni->element; }
 
     Iterator operator++();
 
     Iterator operator++(int);
 
-    bool operator==(const Iterator &cvor) const {
-        return trenutni == cvor.trenutni;
-    }
+    bool operator==(const Iterator &cvor) const { return trenutni == cvor.trenutni; }
 
-    bool operator!=(const Iterator &cvor) const {
-        return trenutni != cvor.trenutni;
-    }
+    bool operator!=(const Iterator &cvor) const { return trenutni != cvor.trenutni; }
 
-    Tip &operator*() const {
-        return trenutni->element;
-    }
+    Tip &operator*() const { return trenutni->element; }
 
-    Tip *operator->() const {
-        return &(trenutni->element);
-    }
+    Tip *operator->() const { return &(trenutni->element); }
 
     //sluzi za pomjeranje na najmanji element u podstablu cvora na koji trenutno pokazuje
     Iterator najmanjiNaGrani();
 
     //sluzi za pomjeranje na najveci element u podstablu cvora na koji trenutno pokazuje
     Iterator najveciNaGrani();
+
+    Iterator pomjeriNaGrani(function<Cvor *(Cvor *)>);
 
     friend class Stablo<Tip>;
 
@@ -69,9 +61,7 @@ public:
         return *this;
     }
 
-    Tip &operator*() {
-        return trenutni->element;
-    }
+    Tip &operator*() { return trenutni->element; }
 
     Reverse_Iterator operator++();
 

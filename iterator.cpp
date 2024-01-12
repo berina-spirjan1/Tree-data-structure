@@ -4,23 +4,42 @@
 #include "iterator.h"
 #include "stablo.h"
 #include <iostream>
+//
+//template<typename Tip>
+//typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
+//    if (this->trenutni == nullptr)
+//        return this; // ako je trenutni cvor nullptr, nema najmanjeg elementa, vracamo trenutni iterator (iterator na trenutni element ostaje nepromijenjen)
+//    while (this->trenutni->ld != nullptr)
+//        this->trenutni = this->trenutni->ld; // prolazimo kroz lijevo podstablo dok ne dodjemo do najmanjeg elementa
+//    return this; // vracamo promijenjeni iterator na najmanji element
+//}
+//
+//template<typename Tip>
+//typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
+//    if (this->trenutni == nullptr)
+//        return this; // ako je trenutni cvor nullptr, nema najmanjeg elementa, vracamo trenutni iterator (iterator na trenutni element ostaje nepromijenjen)
+//    while (this->trenutni->dd != nullptr)
+//        this->trenutni = this->trenutni->dd;  // prolazimo kroz desno podstablo dok ne dodjemo do najveceg elementa
+//    return this; // vracamo promijenjeni iterator koji ce pokazivati na najveci element
+//}
 
-template<typename Tip>
+template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
-    if (this->trenutni == nullptr)
-        return this; // ako je trenutni cvor nullptr, nema najmanjeg elementa, vracamo trenutni iterator (iterator na trenutni element ostaje nepromijenjen)
-    while (this->trenutni->ld != nullptr)
-        this->trenutni = this->trenutni->ld; // prolazimo kroz lijevo podstablo dok ne dodjemo do najmanjeg elementa
-    return this; // vracamo promijenjeni iterator na najmanji element
+    return pomjeriNaGrani([](Cvor* cvor) { return cvor->ld; });
 }
 
-template<typename Tip>
+template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
+    return pomjeriNaGrani([](Cvor* cvor) { return cvor->dd; });
+}
+
+template <typename Tip>
+typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cvor*(Cvor*)> funkcijaPomjeranja) {
     if (this->trenutni == nullptr)
-        return this; // ako je trenutni cvor nullptr, nema najmanjeg elementa, vracamo trenutni iterator (iterator na trenutni element ostaje nepromijenjen)
-    while (this->trenutni->dd != nullptr)
-        this->trenutni = this->trenutni->dd;  // prolazimo kroz desno podstablo dok ne dodjemo do najveceg elementa
-    return this; // vracamo promijenjeni iterator koji ce pokazivati na najveci element
+        return *this; // Ako je trenutni čvor nullptr, nema najmanjeg/najvećeg elementa, vraćamo trenutni iterator
+    while (funkcijaPomjeranja(this->trenutni) != nullptr)
+        this->trenutni = funkcijaPomjeranja(this->trenutni); // Prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najvećeg elementa
+    return *this; // Vraćamo promijenjeni iterator
 }
 
 template<typename Tip>
