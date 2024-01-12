@@ -32,7 +32,7 @@ protected:
 
     Cvor *dajKtiNajveci(Cvor *kr, int k, int &brojac);
 
-    Cvor *dajSljedbenika(Cvor *cvor);
+    Cvor *dajSljedbenika(Cvor *);
 
 public:
     Stablo() : n(0), korijen(nullptr) {}
