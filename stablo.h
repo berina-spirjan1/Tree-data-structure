@@ -26,6 +26,14 @@ protected:
 
     int Visina(Cvor *) const;
 
+    Cvor *dajNajmanjiCvor(Cvor *);
+
+    Cvor *dajNajveciCvor(Cvor *);
+
+    Cvor *dajKtiNajveci(Cvor *kr, int k, int &brojac);
+
+    Cvor *dajSljedbenika(Cvor *cvor);
+
 public:
     Stablo() : n(0), korijen(nullptr) {}
 
@@ -47,6 +55,18 @@ public:
     Cvor *Pocetak() const;
 
     Cvor *Sljedbenik(Cvor *cvor) const;
+
+    Cvor *Begin() {
+        return najmanji(korijen);
+    };
+
+    Cvor *End() {
+        return najveci(korijen);
+    };
+
+    Cvor *Korijen() {
+        return korijen;
+    };
 
     class Iterator;
 

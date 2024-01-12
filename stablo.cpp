@@ -155,5 +155,36 @@ void Stablo<Tip>::Erase(const Tip vrijednost) {
     n--;
 }
 
+template<typename Tip>
+typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajmanjiCvor(Stablo::Cvor *cvor) {
+    if (cvor == nullptr) // ako je trenutni cvor nullptr, nema najmanjeg cvora, vraćamo nullptr
+        return nullptr;
+    Cvor *trenutni = cvor;  // postavljamo trenutni cvor kao pocetni cvor
+    while (trenutni->ld != nullptr)
+        trenutni = trenutni->ld; // prolazimo kroz lijevo podstablo dok ne dodjemo do najmanjeg cvora
+    return trenutni; // vracamo najmanji cvor
+}
+
+template<typename Tip>
+typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
+    if (cvor == nullptr) //ako je trenutni cvor nullptr, nema najveceg cvora, vracamo nullptr
+        return nullptr;
+    Cvor *trenutni = cvor; //postavljamo trenutni cvor kao pocetni cvor
+    while (trenutni->dd != nullptr)
+        trenutni = trenutni->dd; //prolazimo kroz desno podstablo dok ne dodjemo do najveceg cvora
+    return trenutni; // vracamo najveci cvor
+}
+
+template<typename Tip>
+typename Stablo<Tip>::Cvor *Stablo<Tip>::dajSljedbenika(Stablo::Cvor *cvor) {
+    if (cvor->dd != nullptr)
+        return dajNajmanjiCvor(cvor->dd); // ako postoji desno dijete, sljedbenik je najmanji cvor u desnom podstablu
+    Cvor *trenutni = cvor; //ostavljamo trenutni cvor na cvor za kojeg trazimo sljedbenika
+    while (trenutni != korijen && trenutni == trenutni->rod->dd)
+        trenutni = trenutni->rod; //ako je trenutni cvor desno dijete svog roditelja, idemo prema roditelju
+    if (trenutni == korijen)
+        return nullptr; //ako smo dosli do korijena i nismo pronasli sljedbenika, vraćamo nullptr
+    else return trenutni->rod; //vracamo roditelja kao sljedbenika
+}
 
 #endif // STABLO_CPP
