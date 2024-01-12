@@ -57,11 +57,11 @@ public:
     Cvor *Sljedbenik(Cvor *cvor) const;
 
     Cvor *Begin() {
-        return najmanji(korijen);
+        return dajNajmanjiCvor(korijen);
     };
 
     Cvor *End() {
-        return najveci(korijen);
+        return dajNajveciCvor(korijen);
     };
 
     Cvor *Korijen() {
