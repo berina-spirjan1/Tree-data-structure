@@ -25,12 +25,12 @@
 
 template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
-    return pomjeriNaGrani([](Cvor* cvor) { return cvor->ld; });
+    return pomjeriNaGrani([](Cvor* cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
 template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
-    return pomjeriNaGrani([](Cvor* cvor) { return cvor->dd; });
+    return pomjeriNaGrani([](Cvor* cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
 template <typename Tip>
