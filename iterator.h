@@ -47,8 +47,6 @@ public:
 
     friend class Stablo<Tip>;
 
-
-
 };
 
 template<typename Tip>
@@ -80,6 +78,7 @@ public:
     Reverse_Iterator najmanjiNaGrani();
 
     Reverse_Iterator najveciNaGrani();
+    Reverse_Iterator pomjeriNaGrani(function<Cvor *(Cvor *)>);
 
     friend class Stablo<Tip>;
 };

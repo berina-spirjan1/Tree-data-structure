@@ -72,15 +72,15 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
 template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
     if (this->trenutni->ld != nullptr) {
-        // Ako postoji lijevo dijete, idemo na najveći element u lijevom podstablu
+        // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
         this->trenutni = this->trenutni->ld;
         this->najveciNaGrani();
     } else {
-        // Ako nema lijevog djeteta,pomjerimo se ka roditelju sve dok ne nađemo prvo desno dijete
+        // ako nema lijevog djeteta,pomjerimo se ka roditelju sve dok ne nadjemo prvo desno dijete
         while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->ld) {
             this->trenutni = this->trenutni->rod;
         }
-        // Kada dođemo do korijena, iterator će pokazivati na nullptr, inače se pomjeramo na roditelja trenutnog čvora
+        // kada dodjemo do korijena, iterator će pokazivati na nullptr, inace se pomjeramo na roditelja trenutnog cvora
         if (this->trenutni->rod != nullptr) {
             this->trenutni = this->trenutni->rod;
         }
@@ -90,52 +90,100 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
 
 template <typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
-    Iterator kopija = *this;  // Pravimo kopiju trenutnog iteratora
+    Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
     if (this->trenutni->ld != nullptr) {
-        // Ako postoji lijevo dijete od trenutnog čvora, idemo na najveći element u lijevom podstablu
+        // ako postoji lijevo dijete od trenutnog cvora, idemo na najveci element u lijevom podstablu
         this->trenutni = this->trenutni->ld;
         this->najveciNaGrani();
     } else {
-        // Ako nema lijevog djeteta, pomjeramo se prema roditelju od trenutnog čvora
-        // sve dok ne dođemo do prvog desnog djeteta
+        // ako nema lijevog djeteta, pomjeramo se prema roditelju od trenutnog cvora
+        // sve dok ne dodjemo do prvog desnog djeteta
         while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->ld) {
             this->trenutni = this->trenutni->rod;
         }
-        // Kada dođemo do korijena iterator će pokazivati na nullptr, inače se pomjeramo na njegovog roditelja
+        // kada dođemo do korijena iterator će pokazivati na nullptr, inace se pomjeramo na njegovog roditelja
         if (this->trenutni->rod != nullptr) {
             this->trenutni = this->trenutni->rod;
         }
     }
-    return kopija;  // Vraćamo kopiju prvobitnog iteratora koja je sada modifikovana
+    return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
+
+template <typename Tip>
+typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaGrani() {
+    return pomjeriNaGrani([](Cvor* cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
+}
+
+template <typename Tip>
+typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::pomjeriNaGrani(std::function<Cvor*(Cvor*)> funkcijaPomjeranja) {
+    if (this->trenutni == nullptr)
+        return *this; // ako je trenutni cvor nullptr, nema najmanjeg/najveceg elementa, vraćamo trenutni iterator
+    while (funkcijaPomjeranja(this->trenutni) != nullptr)
+        this->trenutni = funkcijaPomjeranja(this->trenutni); // prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najveceg elementa
+    return *this; // vracamo promijenjeni iterator
+}
+
+template <typename Tip>
+typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNaGrani() {
+    return pomjeriNaGrani([](Cvor* cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
+}
+
 
 template <typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++() {
     if (this->trenutni != nullptr) {
         if (this->trenutni->ld != nullptr) {
-            // Ako postoji lijevo dijete, idemo na najveći element u lijevom podstablu
+            // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
             this->trenutni = this->trenutni->ld;
-            this->najveciNaGrani();  // Funkcija koja postavlja iterator na najveći element u podstablu
-            return this;
+            this->najveciNaGrani();  // funkcija koja postavlja iterator na najveci element u podstablu
+            return *this;
         }
         while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->ld) {
-            // Ako trenutni čvor nema lijevo dijete i trenutni čvor je lijevo dijete svog roditelja,
-            // idemo prema roditelju sve dok ne nađemo prvi čvor koji nije lijevo dijete svog roditelja
+            // ako trenutni cvor nema lijevo dijete i trenutni cvor je lijevo dijete svog roditelja,
+            // idemo prema roditelju sve dok ne nadjemo prvi cvor koji nije lijevo dijete svog roditelja
             this->trenutni = this->trenutni->rod;
         }
-        // Ako dođemo do korijena, iterator će pokazivati na nullptr
+        // ako dodjemo do korijena, iterator će pokazivati na nullptr
         if (this->trenutni->rod == nullptr) {
-            return this;
+            return *this;
         } else {
-            // Ako nismo došli do korijena, idemo na roditelja trenutnog čvora
+            // ako nismo dosli do korijena, idemo na roditelja trenutnog cvora
             this->trenutni = this->trenutni->rod;
-            return this;
+            return *this;  // Return the modified iterator
         }
     } else {
-        // Ako je pokazivač već nullptr, vraćamo postojeći iterator
-        return this;
+        // ako je pokazivac već nullptr, vracamo postojeci iterator
+        return *this;
     }
 }
+
+template <typename Tip>
+typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++(int) {
+    // kreiramo kopiju trenutnog iteratora
+    Reverse_Iterator kopija = *this;
+
+    // ako trenutni čvor ima lijevo dijete, pomjeri se na njegovo dijete i zatim na najdesniji element u njegovom podstablu
+    if (this->trenutni->ld != nullptr) {
+        this->trenutni = this->trenutni->ld;
+        this->najveciNaGrani();
+        return kopija;
+    }
+
+    // ako trenutni cvor nema lijevo dijete, idemo prema gore do prvog čvora koji je desno dijete svog roditelja
+    while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->ld) {
+        this->trenutni = this->trenutni->rod;
+    }
+
+    // ako smo došli do korijena, vracamo originalni iterator
+    if (this->trenutni->rod == nullptr) {
+        return kopija;
+    } else {
+        // pomjeramo se na roditelj čvor
+        this->trenutni = this->trenutni->rod;
+        return kopija;
+    }
+}
+
 
 
 
