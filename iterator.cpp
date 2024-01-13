@@ -6,23 +6,25 @@
 #include <iostream>
 
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
-    return pomjeriNaGrani([](Cvor* cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
+    return pomjeriNaGrani(
+            [](Cvor *cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
-template <typename Tip>
-typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cvor*(Cvor*)> funkcijaPomjeranja) {
+template<typename Tip>
+typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cvor * (Cvor * )> funkcijaPomjeranja) {
     if (this->trenutni == nullptr)
         return *this; // Ako je trenutni čvor nullptr, nema najmanjeg/najvećeg elementa, vraćamo trenutni iterator
     while (funkcijaPomjeranja(this->trenutni) != nullptr)
-        this->trenutni = funkcijaPomjeranja(this->trenutni); // Prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najvećeg elementa
+        this->trenutni = funkcijaPomjeranja(
+                this->trenutni); // Prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najvećeg elementa
     return *this; // Vraćamo promijenjeni iterator
 }
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
-    return pomjeriNaGrani([](Cvor* cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
+    return pomjeriNaGrani([](Cvor *cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
 
@@ -47,7 +49,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
     return this;
 }
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
     Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
     if (this->trenutni->dd != nullptr) {
@@ -69,7 +71,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
 }
 
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
     if (this->trenutni->ld != nullptr) {
         // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
@@ -88,7 +90,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
     return *this;
 }
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
     Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
     if (this->trenutni->ld != nullptr) {
@@ -109,27 +111,30 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
     return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaGrani() {
-    return pomjeriNaGrani([](Cvor* cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
+    return pomjeriNaGrani([](Cvor *cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
-template <typename Tip>
-typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::pomjeriNaGrani(std::function<Cvor*(Cvor*)> funkcijaPomjeranja) {
+template<typename Tip>
+typename Stablo<Tip>::Reverse_Iterator
+Stablo<Tip>::Reverse_Iterator::pomjeriNaGrani(std::function<Cvor * (Cvor * )> funkcijaPomjeranja) {
     if (this->trenutni == nullptr)
         return *this; // ako je trenutni cvor nullptr, nema najmanjeg/najveceg elementa, vraćamo trenutni iterator
     while (funkcijaPomjeranja(this->trenutni) != nullptr)
-        this->trenutni = funkcijaPomjeranja(this->trenutni); // prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najveceg elementa
+        this->trenutni = funkcijaPomjeranja(
+                this->trenutni); // prolazimo kroz lijevo/desno podstablo dok ne dođemo do najmanjeg/najveceg elementa
     return *this; // vracamo promijenjeni iterator
 }
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNaGrani() {
-    return pomjeriNaGrani([](Cvor* cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
+    return pomjeriNaGrani(
+            [](Cvor *cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++() {
     if (this->trenutni != nullptr) {
         if (this->trenutni->ld != nullptr) {
@@ -157,7 +162,7 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
     }
 }
 
-template <typename Tip>
+template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++(int) {
     // kreiramo kopiju trenutnog iteratora
     Reverse_Iterator kopija = *this;
@@ -184,8 +189,46 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
     }
 }
 
+template<typename Tip>
+typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--() {
+    // ako postoji desno dijete, pomjeramo se na najmanji element u desnom podstablu
+    if (this->trenutni->dd != nullptr) {
+        this->trenutni = this->trenutni->dd;
+        this->najmanjiNaGrani();
+    } else {
+        // ako nema desnog djeteta, idi prema gore do prvog cvora koji je lijevo dijete svog roditelja
+        while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->dd) {
+            this->trenutni = this->trenutni->rod;
+        }
+        // ako smo došli do korijena, iterator će pokazivati na nullptr, inace idi na roditelja trenutnog cvora
+        if (this->trenutni->rod != nullptr) {
+            this->trenutni = this->trenutni->rod;
+        }
+    }
+    return *this;
+}
 
 
+template<typename Tip>
+typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--(int) {
+    Reverse_Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
+    if (this->trenutni->ld != nullptr) {
+        // ako postoji lijevo dijete od trenutnog cvora, idemo na najveci element u lijevom podstablu
+        this->trenutni = this->trenutni->ld;
+        this->najveciNaGrani();
+    } else {
+        // ako nema lijevog djeteta, pomjeramo se prema roditelju od trenutnog cvora
+        // sve dok ne dodjemo do prvog desnog djeteta
+        while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->ld) {
+            this->trenutni = this->trenutni->rod;
+        }
+        // kada dođemo do korijena iterator će pokazivati na nullptr, inace se pomjeramo na njegovog roditelja
+        if (this->trenutni->rod != nullptr) {
+            this->trenutni = this->trenutni->rod;
+        }
+    }
+    return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
+}
 
 
 #endif // ITERATOR_CPP

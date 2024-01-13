@@ -13,10 +13,11 @@ public:
     Iterator(const Iterator &it) : trenutni(it.trenutni) {}
 
     Iterator &operator=(const Iterator &it) {
+        // provjeravamo da li se radi o dodjeli istog iteratora
         if (this != &it) {
-            trenutni = it.trenutni;
+            trenutni = it.trenutni; //vrijednost trenutnog pokazivača se kopira iz it
         }
-        return *this;
+        return *this; //vracamo referencu na trenutni iterator nakon dodjele
     }
 
     Tip &operator*() { return trenutni->element; }
@@ -75,9 +76,18 @@ public:
 
     Reverse_Iterator operator--(int);
 
+    bool operator==(const Reverse_Iterator &cvor) const { return trenutni == cvor.trenutni; }
+
+    bool operator!=(const Reverse_Iterator &cvor) const { return trenutni != cvor.trenutni; }
+
+    Tip &operator*() const { return trenutni->element; }
+
+    Tip *operator->() const { return &(trenutni->element); }
+
     Reverse_Iterator najmanjiNaGrani();
 
     Reverse_Iterator najveciNaGrani();
+
     Reverse_Iterator pomjeriNaGrani(function<Cvor *(Cvor *)>);
 
     friend class Stablo<Tip>;

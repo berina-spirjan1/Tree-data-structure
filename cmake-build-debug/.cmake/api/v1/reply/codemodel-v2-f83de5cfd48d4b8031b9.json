@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "projekat::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-projekat-Debug-36766d735b777c153bf1.json",
+					"jsonFile" : "target-projekat-Debug-cf7a5af71c1f1cf26a77.json",
 					"name" : "projekat",
 					"projectIndex" : 0
 				}
@@ -55,6 +55,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 5
+		"minor" : 6
 	}
 }
