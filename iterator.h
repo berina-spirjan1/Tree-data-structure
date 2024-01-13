@@ -25,6 +25,10 @@ public:
 
     Iterator operator++(int);
 
+    Iterator operator--();
+
+    Iterator operator--(int);
+
     bool operator==(const Iterator &cvor) const { return trenutni == cvor.trenutni; }
 
     bool operator!=(const Iterator &cvor) const { return trenutni != cvor.trenutni; }
@@ -42,6 +46,8 @@ public:
     Iterator pomjeriNaGrani(function<Cvor *(Cvor *)>);
 
     friend class Stablo<Tip>;
+
+
 
 };
 
@@ -66,6 +72,10 @@ public:
     Reverse_Iterator operator++();
 
     Reverse_Iterator operator++(int);
+
+    Reverse_Iterator operator--();
+
+    Reverse_Iterator operator--(int);
 
     Reverse_Iterator najmanjiNaGrani();
 
