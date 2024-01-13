@@ -26,14 +26,6 @@ protected:
 
     int Visina(Cvor *) const;
 
-    Cvor *dajNajmanjiCvor(Cvor *);
-
-    Cvor *dajNajveciCvor(Cvor *);
-
-    Cvor *dajKtiNajveci(Cvor *kr, int k, int &brojac);
-
-    Cvor *dajSljedbenika(Cvor *);
-
 public:
     Stablo() : n(0), korijen(nullptr) {}
 
@@ -56,11 +48,7 @@ public:
 
     Cvor *Sljedbenik(Cvor *cvor) const;
 
-    Cvor *Begin() {
-        return dajNajmanjiCvor(korijen);
-    };
-
-    Cvor *End() {
+    Cvor *Kraj() {
         return dajNajveciCvor(korijen);
     };
 
@@ -68,9 +56,18 @@ public:
         return korijen;
     };
 
+    Cvor *dajNajmanjiCvor(Cvor *);
+
+    Cvor *dajNajveciCvor(Cvor *);
+
+    Cvor *dajKtiElement(Cvor *trenutniCvor, int pozicija, int &brojac);
+
     class Iterator;
 
     class Reverse_Iterator;
+
+    template<typename Tip2>
+    friend bool provjeriPodstablo(Stablo<Tip2> &s1, Stablo<Tip2> &s2);
 };
 
 #include "stablo.cpp"

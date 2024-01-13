@@ -60,10 +60,11 @@ public:
     Reverse_Iterator(const Reverse_Iterator &it) : trenutni(it.trenutni) {}
 
     Reverse_Iterator &operator=(const Reverse_Iterator &it) {
+        // provjeravamo da li se radi o dodjeli istog iteratora
         if (this != &it) {
-            trenutni = it.trenutni;
+            trenutni = it.trenutni; //vrijednost trenutnog pokazivača se kopira iz it
         }
-        return *this;
+        return *this; //vracamo referencu na trenutni iterator nakon dodjele
     }
 
     Tip &operator*() { return trenutni->element; }

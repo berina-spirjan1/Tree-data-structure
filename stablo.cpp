@@ -176,15 +176,43 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
 }
 
 template<typename Tip>
-typename Stablo<Tip>::Cvor *Stablo<Tip>::dajSljedbenika(Stablo::Cvor *cvor) {
-    if (cvor->dd != nullptr)
-        return dajNajmanjiCvor(cvor->dd); // ako postoji desno dijete, sljedbenik je najmanji cvor u desnom podstablu
-    Cvor *trenutni = cvor; //ostavljamo trenutni cvor na cvor za kojeg trazimo sljedbenika
-    while (trenutni != korijen && trenutni == trenutni->rod->dd)
-        trenutni = trenutni->rod; //ako je trenutni cvor desno dijete svog roditelja, idemo prema roditelju
-    if (trenutni == korijen)
-        return nullptr; //ako smo dosli do korijena i nismo pronasli sljedbenika, vraćamo nullptr
-    else return trenutni->rod; //vracamo roditelja kao sljedbenika
+bool provjeriPodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
+    // provjeravamo da li su korijeni jednaki nullptr (bar jedan od dva)
+    if (stablo1.Korijen() == nullptr || stablo2.Korijen() == nullptr)
+        return false;
+
+    // u ovom vektoru cemo cuvati elemente prvog stabla
+    vector<Tip> elementi2;
+
+    // prolazimo kroz drugo stablo i dodajemo elemente drugog stabla u vektor
+    typename Stablo<Tip>::Cvor *cvor = stablo2.Sljedbenik(stablo2.Korijen());
+    while (cvor != nullptr) {
+        elementi2.push_back(cvor->element);
+        cvor = stablo2.Sljedbenik(cvor);
+    }
+
+    // postavljamo trenutni cvor za prvo stablo
+    cvor = stablo1.dajNajmanjiCvor(stablo1.Korijen());
+
+    // Indeks za pracenje pozicije u vektoru prvog stabla
+    int pozicija = 0;
+
+    // prolazimo kroz oba stabla
+    while (pozicija != elementi2.size() - 1) {
+        // ako je element prvog stabla manji od elementa drugog stabla vracamo false
+        if (elementi2[pozicija] < cvor->element) {
+            return false;
+        }
+        // ako su trenutni elementi jednaki pomjeramo se na sljedeci element i azuriramo njegovu poziciju
+        if (elementi2[pozicija] == cvor->element) {
+            pozicija++;
+        }
+        // pomjeramo se na sljedeći element u drugom stablu
+        cvor = stablo1.Sljedbenik(cvor);
+    }
+
+    // ako smo prosli kroz sve elemente drugog stabla vracamo true
+    return true;
 }
 
 #endif // STABLO_CPP
