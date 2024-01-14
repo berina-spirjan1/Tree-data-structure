@@ -217,29 +217,30 @@ bool provjeriDaLiJePodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
 
 template<typename Tip>
 typename Stablo<Tip>::Cvor *Stablo<Tip>::dajKtiElement(int pozicija, Stablo::Cvor *trenutniCvor, int &brojac) {
-    // ako je trenutni cvor nullptr vracamo null pointer
+    // ako je trenutni cvor nullptr, ne mozemo dalje i vracamo nullptr
     if (trenutniCvor == nullptr)
         return nullptr;
 
-    // trazimo k-ti najveci element u desnom podstablu
-    typename Stablo<Tip>::Cvor *desni = dajKtiElement(pozicija, trenutniCvor->dd, brojac);
+    // rekurzivno trazimo k-ti najmanji element u lijevom podstablu
+    typename Stablo<Tip>::Cvor *lijevi = dajKtiElement(pozicija, trenutniCvor->ld, brojac);
 
-    // ako smo pronašli k-ti najveći element u desnom podstablu, vraćamo taj čvor
-    if (desni != nullptr)
-        return desni;
+    // ako je k-ti najmanji element u lijevom podstablu vracamo ga
+    if (lijevi != nullptr)
+        return lijevi;
 
     brojac++;
 
-    // ako je trenutni cvor k-ti najveci, vracamo taj cvor
+    // ako je trenutni cvor k-ti najmanji vracamo taj cvor
     if (brojac == pozicija)
         return trenutniCvor;
 
-    // inace trazimo k-ti najveci element u lijevom podstablu
-    typename Stablo<Tip>::Cvor *lijevi = dajKtiElement(pozicija, trenutniCvor->ld, brojac);
+    // rekurzivno trazimo k-ti najmanji element u desnom podstablu
+    typename Stablo<Tip>::Cvor *desni = dajKtiElement(pozicija, trenutniCvor->dd, brojac);
 
-    // vracamo pronadjeni cvor iz lijevog podstabla
-    return lijevi;
+    // vraćamo cvor iz desnog podstabla
+    return desni;
 }
+
 
 template<typename Tip>
 Tip Stablo<Tip>::operator[](int pozicija) {

@@ -45,7 +45,7 @@ int main() {
 
     cout << "Drugo stablo: ";
     s2.InOrder();
-    cout <<"Trazim drugi element: "<<s2[2]<< endl;
+    cout <<"Trazim drugi element: "<<s2[4]<< endl;
 
     cout << "Funkcija provjeri Stablo: ";
     cout << provjeriDaLiJePodstablo(s, s2);
