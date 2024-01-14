@@ -34,7 +34,6 @@ int main() {
     s.Insert(17);
     s.Insert(18);
 
-    cout << "Prvo stablo: ";
     s.InOrder();
 
     Stablo<int> s2;
@@ -46,14 +45,12 @@ int main() {
 
     cout << "Drugo stablo: ";
     s2.InOrder();
-    cout << endl;
+    cout <<"Trazim drugi element: "<<s2[2]<< endl;
 
     cout << "Funkcija provjeri Stablo: ";
-    cout << provjeriPodstablo(s, s2);
+    cout << provjeriDaLiJePodstablo(s, s2);
 
-
-    //testiran dio ovo je uredu
-//    cout << "prvi: "<<*iterator <<endl;
+    //    cout << "prvi: "<<*iterator <<endl;
 //    cout <<"drugi: "<<*iterator++ <<endl;
 //    cout <<"treci: " <<*iterator++ <<endl;
 //    cout <<"cetvrti: "<< *iterator-- <<endl;

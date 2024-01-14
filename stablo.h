@@ -60,14 +60,16 @@ public:
 
     Cvor *dajNajveciCvor(Cvor *);
 
-    Cvor *dajKtiElement(Cvor *trenutniCvor, int pozicija, int &brojac);
+    Cvor *dajKtiElement(int pozicija, Cvor *trenutniCvor, int &brojac);
 
     class Iterator;
 
     class Reverse_Iterator;
 
+    Tip operator[](int);
+
     template<typename Tip2>
-    friend bool provjeriPodstablo(Stablo<Tip2> &s1, Stablo<Tip2> &s2);
+    friend bool provjeriDaLiJePodstablo(Stablo<Tip2> &s1, Stablo<Tip2> &s2);
 };
 
 #include "stablo.cpp"

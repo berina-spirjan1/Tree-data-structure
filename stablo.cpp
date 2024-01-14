@@ -176,7 +176,7 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
 }
 
 template<typename Tip>
-bool provjeriPodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
+bool provjeriDaLiJePodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
     // provjeravamo da li su korijeni jednaki nullptr (bar jedan od dva)
     if (stablo1.Korijen() == nullptr || stablo2.Korijen() == nullptr)
         return false;
@@ -194,7 +194,7 @@ bool provjeriPodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
     // postavljamo trenutni cvor za prvo stablo
     cvor = stablo1.dajNajmanjiCvor(stablo1.Korijen());
 
-    // Indeks za pracenje pozicije u vektoru prvog stabla
+    // Indeks za pracenje pozicije u vektoru drugog stabla
     int pozicija = 0;
 
     // prolazimo kroz oba stabla
@@ -214,5 +214,44 @@ bool provjeriPodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
     // ako smo prosli kroz sve elemente drugog stabla vracamo true
     return true;
 }
+
+template<typename Tip>
+typename Stablo<Tip>::Cvor *Stablo<Tip>::dajKtiElement(int pozicija, Stablo::Cvor *trenutniCvor, int &brojac) {
+    // ako je trenutni cvor nullptr vracamo null pointer
+    if (trenutniCvor == nullptr)
+        return nullptr;
+
+    // trazimo k-ti najveci element u desnom podstablu
+    typename Stablo<Tip>::Cvor *desni = dajKtiElement(pozicija, trenutniCvor->dd, brojac);
+
+    // ako smo pronašli k-ti najveći element u desnom podstablu, vraćamo taj čvor
+    if (desni != nullptr)
+        return desni;
+
+    brojac++;
+
+    // ako je trenutni cvor k-ti najveci, vracamo taj cvor
+    if (brojac == pozicija)
+        return trenutniCvor;
+
+    // inace trazimo k-ti najveci element u lijevom podstablu
+    typename Stablo<Tip>::Cvor *lijevi = dajKtiElement(pozicija, trenutniCvor->ld, brojac);
+
+    // vracamo pronadjeni cvor iz lijevog podstabla
+    return lijevi;
+}
+
+template<typename Tip>
+Tip Stablo<Tip>::operator[](int pozicija) {
+    int brojac = 0;
+    pozicija++; // dajKtiElement trazi k-ti najveci element, a ne indeks pa uvecavamo za jedan
+    typename Stablo<Tip>::Cvor *rezultat = dajKtiElement(pozicija, korijen, brojac);
+
+    if (rezultat == nullptr) {
+        throw out_of_range("Trazeni element ne postoji u stablu.");
+    }
+    return rezultat->element;
+}
+
 
 #endif // STABLO_CPP
