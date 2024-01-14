@@ -193,14 +193,14 @@ bool provjeriDaLiJePodstablo(Stablo<Tip> &s1, Stablo<Tip> &s2) {
         if (trenutniS->element < trenutniT->element) {
             trenutniS = s1.Sljedbenik(trenutniS);
         }
-        //ako su trenutni elementi u oba stabla jednaki
-        //pomjeramo se na sljedece elemente u oba stabla
+            //ako su trenutni elementi u oba stabla jednaki
+            //pomjeramo se na sljedece elemente u oba stabla
         else if (trenutniS->element == trenutniT->element) {
             trenutniS = s1.Sljedbenik(trenutniS);
             trenutniT = s2.Sljedbenik(trenutniT);
         }
-        //ako je trenutni element s1 veci od trenutnog elementa stabla s2, to znaci da s2 nije podskup od s1
-        //pa vracamo false
+            //ako je trenutni element s1 veci od trenutnog elementa stabla s2, to znaci da s2 nije podskup od s1
+            //pa vracamo false
         else {
             return false;
         }
