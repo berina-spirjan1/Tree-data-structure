@@ -176,43 +176,37 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
 }
 
 template<typename Tip>
-bool provjeriDaLiJePodstablo(Stablo<Tip> &stablo1, Stablo<Tip> &stablo2) {
-    // provjeravamo da li su korijeni jednaki nullptr (bar jedan od dva)
-    if (stablo1.Korijen() == nullptr || stablo2.Korijen() == nullptr)
+bool provjeriDaLiJePodstablo(Stablo<Tip> &s1, Stablo<Tip> &s2) {
+    // provjeravamo da li jedan od korijena nullptr to znaci da sigurno ne moze biti podstablo
+    if (s1.Korijen() == nullptr || s2.Korijen() == nullptr) {
         return false;
-
-    // u ovom vektoru cemo cuvati elemente prvog stabla
-    vector<Tip> elementi2;
-
-    // prolazimo kroz drugo stablo i dodajemo elemente drugog stabla u vektor
-    typename Stablo<Tip>::Cvor *cvor = stablo2.Sljedbenik(stablo2.Korijen());
-    while (cvor != nullptr) {
-        elementi2.push_back(cvor->element);
-        cvor = stablo2.Sljedbenik(cvor);
     }
 
-    // postavljamo trenutni cvor za prvo stablo
-    cvor = stablo1.dajNajmanjiCvor(stablo1.Korijen());
+    //postavljamo trenutne cvorove za oba stabla
+    typename Stablo<Tip>::Cvor *trenutniS = s1.Pocetak();
+    typename Stablo<Tip>::Cvor *trenutniT = s2.Pocetak();
 
-    // Indeks za pracenje pozicije u vektoru drugog stabla
-    int pozicija = 0;
-
-    // prolazimo kroz oba stabla
-    while (pozicija != elementi2.size() - 1) {
-        // ako je element prvog stabla manji od elementa drugog stabla vracamo false
-        if (elementi2[pozicija] < cvor->element) {
+    //prolazimo kroz oba stabla
+    while (trenutniS != nullptr && trenutniT != nullptr) {
+        //ako je trenutni element stabla s1 manji od trenutnog elementa stabla s2
+        //pomjeramo se na sljedeci element u stablu s1
+        if (trenutniS->element < trenutniT->element) {
+            trenutniS = s1.Sljedbenik(trenutniS);
+        }
+        //ako su trenutni elementi u oba stabla jednaki
+        //pomjeramo se na sljedece elemente u oba stabla
+        else if (trenutniS->element == trenutniT->element) {
+            trenutniS = s1.Sljedbenik(trenutniS);
+            trenutniT = s2.Sljedbenik(trenutniT);
+        }
+        //ako je trenutni element s1 veci od trenutnog elementa stabla s2, to znaci da s2 nije podskup od s1
+        //pa vracamo false
+        else {
             return false;
         }
-        // ako su trenutni elementi jednaki pomjeramo se na sljedeci element i azuriramo njegovu poziciju
-        if (elementi2[pozicija] == cvor->element) {
-            pozicija++;
-        }
-        // pomjeramo se na sljedeći element u drugom stablu
-        cvor = stablo1.Sljedbenik(cvor);
     }
-
-    // ako smo prosli kroz sve elemente drugog stabla vracamo true
-    return true;
+    //ako smo dosli do kraja stabla s2, onda je s2 podskup od s1
+    return trenutniT == nullptr;
 }
 
 template<typename Tip>
