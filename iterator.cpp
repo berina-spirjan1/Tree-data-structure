@@ -6,12 +6,38 @@
 #include <iostream>
 
 
+/**
+ * @brief Iterator na najmanji element u podstablu trenutnog čvora.
+ *
+ * Metoda najmanjiNaGrani pomjera iterator na najmanji element u podstablu trenutnog čvora.
+ * Ova metoda unutar svoje definicije poziva drugu funkciju pomjeriNaGrani i proslijeđuje
+ * joj lambda funkciju, što kao rezultat vraća iterator na lijevo dijete trenutnog čvora.
+ * Iterator se pomjera na najmanji element u podstablu tako što se kontinuirano pomjera
+ * na lijevo dijete dok god ono postoji. Kao rezultat metoda vraća iterator na najmanji
+ * element u podstablu trenutnog čvora.
+ *
+ * @return Iterator na najmanji element u podstablu trenutnog čvora.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
     return pomjeriNaGrani(
             [](Cvor *cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
+/**
+ * @brief Iterator na najmanji ili najveći element u podstablu trenutnog čvora.
+ *
+ * Metoda pomjeriNaGrani je implementirana kako bismo izbjegli dupliciranje koda.
+ * Kao parametar prima lambda funkciju koja vraća iterator na lijevo ili desno dijete
+ * trenutnog čvora, u zavisnosti od potrebe za traženjem najmanjeg ili najvećeg elementa.
+ * Iterator se pomjera na najmanji ili najveći element u podstablu tako što se kontinuirano
+ * pomjera na lijevo ili desno dijete čvora, dokle god takvo dijete postoji. Kao rezultat
+ * poziva metode pomjeriNaGrani dobijamo iterator koji pokazuje na najmanji ili najveći
+ * element u podstablu trenutnog čvora.
+ *
+ * @param funkcijaPomjeranja Lambda funkcija koja vraća iterator na lijevo ili desno dijete trenutnog čvora.
+ * @return Iterator na najmanji ili najveći element u podstablu trenutnog čvora.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cvor * (Cvor * )> funkcijaPomjeranja) {
     if (this->trenutni == nullptr)
@@ -22,12 +48,39 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cv
     return *this; // Vraćamo promijenjeni iterator
 }
 
+
+/**
+ * @brief Iterator na najveći element u podstablu trenutnog čvora.
+ *
+ * Metoda najveciNaGrani pomjera iterator na najveći element u podstablu trenutnog čvora.
+ * Ova metoda unutar svoje definicije poziva drugu funkciju pomjeriNaGrani i proslijeđuje
+ * joj lambda funkciju, što kao rezultat vraća iterator na desno dijete trenutnog čvora.
+ * Iterator se pomjera na najveći element u podstablu tako što se kontinuirano pomjera
+ * na desno dijete dok god ono postoji. Kao rezultat metoda vraća iterator na najveći
+ * element u podstablu trenutnog čvora.
+ *
+ * @return Iterator na najveći element u podstablu trenutnog čvora.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
     return pomjeriNaGrani([](Cvor *cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
 
+/**
+ * @brief Operator prefiksne inkrementacije za klasu Iterator.
+ *
+ * Operator prefiksne inkrementacije (++it) za klasu Iterator zasniva se na ideji
+ * da pomjeramo iterator na sljedeći element u inorder obilasku stabla. Ovo radimo
+ * na način da provjeramo da li postoji desno dijete trenutnog čvora. Ukoliko postoji,
+ * pomjeramo iterator sve dok ne dođemo do najmanjeg elementa u desnom podstablu.
+ * Suprotno, ako ne postoji desno dijete, iterator pomjeramo prema roditelju dok ne
+ * dođemo do prvog lijevog djeteta. Kada stignemo do korijena, znači da će nam iterator
+ * pokazivati na nullptr i tu se zaustavljamo. Kao rezultat ovaj operator vraća referencu
+ * na modifikovani iterator.
+ *
+ * @return Referenca na modifikovani iterator nakon inkrementacije.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
     if (this->trenutni->dd != nullptr) {
@@ -49,6 +102,21 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
     return this;
 }
 
+/**
+ * @brief Operator postfiksne inkrementacije za klasu Iterator.
+ *
+ * Operator postfiksne inkrementacije (it++) za klasu Iterator funkcioniše na način
+ * da u početku napravimo kopiju trenutnog iteratora, a zatim pomjeramo trenutni (originalni)
+ * iterator na sljedeći element u inorder obilasku stabla. Ako postoji desno dijete trenutnog čvora,
+ * iterator pomjeramo na najmanji element u desnom podstablu. Ako ne postoji desno dijete, iterator
+ * pomjeramo prema roditelju dok ne pronađemo prvo lijevo dijete. U trenutku kada dođemo do korijena,
+ * naš iterator će pokazivati na nullptr. Parametar koji prima ovaj operator se naziva dummy parametar,
+ * on nam služi samo kako bismo označili postfiksni operator inkrementiranja, ali ga u funkciji ne koristimo.
+ * Kao rezultat primjene operatora postfiksne inkrementacije vraćamo kopiju prvobitnog iteratora koja je sada modifikovana.
+ *
+ * @param DummyParam Dummy parametar (int) koji označava postfiksni operator inkrementiranja, ali se ne koristi u funkciji.
+ * @return Kopija prvobitnog iteratora koja je sada modifikovana.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
     Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
@@ -70,7 +138,18 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
     return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
 
-
+/**
+ * @brief Operator prefiksnog dekrementiranja za klasu Iterator.
+ *
+ * Operator prefiksnog dekrementiranja (--it) za klasu Iterator koristi se kako bi se
+ * iterator pomjerio na prethodni element u inorder poretku stabla. Ako za trenutni čvor
+ * postoji lijevo dijete, iterator se pomjera na najveći element u lijevom podstablu.
+ * U suprotnom, ukoliko ne postoji lijevo dijete, iterator se pomjera ka roditelju sve
+ * dok ne dođe do prvog desnog djeteta. Kada stignemo do korijena, iterator će pokazivati
+ * na nullptr. Kao rezultat vraćamo modifikovani iterator.
+ *
+ * @return Modifikovani iterator nakon dekrementiranja.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
     if (this->trenutni->ld != nullptr) {
@@ -90,6 +169,19 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
     return *this;
 }
 
+/**
+ * @brief Operator postfiksnog dekrementiranja za klasu Iterator.
+ *
+ * Operator postfiksnog dekrementiranja (it--) za klasu Iterator pravi kopiju trenutnog
+ * iteratora, a zatim mijenja trenutni iterator. Ako postoji lijevo dijete trenutnog čvora,
+ * iterator se pomjera na najveci element u lijevom podstablu. Ako ne postoji lijevo dijete,
+ * iterator se pomjera ka roditelju sve dok ne dođemo do prvog desnog djeteta. Ako dođemo do
+ * korijena, iterator će pokazivati na nullptr. Kao rezultat iz operatora vraćamo kopiju prvobitnog
+ * iteratora koja je sada modifikovana.
+ *
+ * @param DummyParam Dummy parametar koji označava postfiksni operator dekrementiranja, ali se ne koristi u funkciji.
+ * @return Kopija prvobitnog iteratora koja je sada modifikovana.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
     Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora

@@ -155,6 +155,15 @@ void Stablo<Tip>::Erase(const Tip vrijednost) {
     n--;
 }
 
+/**
+ * @brief Dohvata najveći čvor u podstablu sa trenutnim čvorom kao početkom.
+ *
+ * Metoda dajNajveciCvor traži najveći čvor u stablu sa trenutnim čvorom kao početkom.
+ * Implementacija metode rekurzivno pretražuje desno podstablo sve dok ne dođe do najvećeg čvora.
+ *
+ * @param cvor Pokazivač na trenutni čvor, početak pretrage.
+ * @return Pokazivač na najveći čvor u podstablu ili nullptr ako je stablo prazno.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
     if (cvor == nullptr) //ako je trenutni cvor nullptr, nema najveceg cvora, vracamo nullptr
@@ -165,6 +174,24 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
     return trenutni; // vracamo najveci cvor
 }
 
+/**
+ * @brief Provjerava da li je stablo s2 podskup stabla s1.
+ *
+ * Prijateljska funkcija koja vrši provjeru da li je stablo s2 podskup prvog stabla s1.
+ * Vrijeme izvršavanja ove funkcije je O(m + n), gdje m predstavlja broj elemenata stabla s1,
+ * a n broj elemenata stabla s2. Ako jedno od stabala (s1 ili s2) ima korijen jednak nullptr,
+ * funkcija odmah vraća false, jer stablo sa praznim korijenom, odnosno korijenom koji pokazuje
+ * na nullptr ne može sadržavati podstabla. Koristimo iterativni pristup prolaska kroz oba stabla,
+ * upoređujući trenutne čvorove. Prolazimo kroz oba stabla istovremeno, upoređujući trenutne čvorove.
+ * Ako se bilo koji trenutni čvor stabla s1 pokaže većim od trenutnog čvora stabla s2, vraćamo false,
+ * jer to znači da s2 nije podskup od stabla s1. Ako su trenutni čvorovi u oba stabla jednaki, pomjeramo
+ * se na sljedeće čvorove u oba stabla. Kada dođemo do kraja stabla s2, tada je s2 podskup od s1
+ * i vraćamo true vrijednost.
+ *
+ * @param s1 Prvo stablo.
+ * @param s2 Drugo stablo koje provjeravamo da li je podskup.
+ * @return True ako je s2 podskup od s1, inače false.
+ */
 template<typename Tip>
 bool provjeriDaLiJePodskup(Stablo<Tip> &s1, Stablo<Tip> &s2) {
     // provjeravamo da li jedan od korijena nullptr to znaci da sigurno ne moze biti podstablo
@@ -199,6 +226,23 @@ bool provjeriDaLiJePodskup(Stablo<Tip> &s1, Stablo<Tip> &s2) {
     return trenutniT == nullptr;
 }
 
+/**
+ * @brief Dohvata k-ti najmanji element u stablu.
+ *
+ * Metoda dajKtiElement traži k-ti najmanji element u stablu.
+ * Prima tri parametra: pozicija - tražena pozicija elementa,
+ * trenutniCvor - trenutni čvor koji posmatramo, i brojac - brojač
+ * koji prati trenutni redni broj najmanjeg elementa.
+ * Rekurzivno pretražuje lijevo podstablo sve dok ne pronađe
+ * k-ti najmanji element ili dok ne dođe do kraja stabla. Ako
+ * pronađe k-ti najmanji element u desnom podstablu, vraća
+ * odgovarajući čvor, u suprotnom vraća nullptr.
+ *
+ * @param pozicija Tražena pozicija elementa.
+ * @param trenutniCvor Trenutni čvor koji se posmatra.
+ * @param brojac Brojač trenutnog rednog broja najmanjeg elementa.
+ * @return Pokazivač na k-ti najmanji element ili nullptr ako ne postoji.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Cvor *Stablo<Tip>::dajKtiElement(int pozicija, Stablo::Cvor *trenutniCvor, int &brojac) {
     // ako je trenutni cvor nullptr, ne mozemo dalje i vracamo nullptr
@@ -226,6 +270,21 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajKtiElement(int pozicija, Stablo::Cvo
 }
 
 
+/**
+ * @brief Omogućava pristup elementu na određenoj poziciji u stablu.
+ *
+ * Operator[] omogućava pristup elementu na određenoj poziciji u stablu.
+ * Prima jedan parametar - pozicija - tražena pozicija elementa. Koristi funkciju
+ * dajKtiElement kako bi pronašla k-ti najveći element u stablu. Ako traženi element
+ * ne postoji (tj. ako je k veće od broja elemenata u stablu), baca izuzetak std::out_of_range.
+ * Ova metoda omogućava indeksiranje stabla kao niz, pri čemu je indeksiranje bazirano na
+ * redoslijedu elemenata u inorder (uzlaznom) poretku. Vrijeme izvršavanja je O(h), gdje je h
+ * visina stabla.
+ *
+ * @param pozicija Tražena pozicija elementa.
+ * @return Element na traženoj poziciji.
+ * @throws std::out_of_range Ako traženi element ne postoji u stablu.
+ */
 template<typename Tip>
 Tip Stablo<Tip>::operator[](int pozicija) {
     int brojac = 0;

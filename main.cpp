@@ -47,7 +47,7 @@ int main() {
     s2.InOrder();
 //    cout <<"Trazim drugi element: "<<s2[4]<< endl;
 
-    cout <<endl<<"Da li je podstablo: "<< provjeriDaLiJePodstablo(s, s2)<<endl;
+    cout <<endl<<"Da li je podstablo: "<< provjeriDaLiJePodskup(s, s2)<<endl;
 
     //    cout << "prvi: "<<*iterator <<endl;
 //    cout <<"drugi: "<<*iterator++ <<endl;
@@ -60,7 +60,7 @@ int main() {
 
     //problem prilikom ispisivanja ne prolazi petlja da se pomice dalje.
 //    // ispisivanje u inorder poretku
-    for (auto trenutni = s.Pocetak(); trenutni != s.Kraj(); trenutni++)
+    for (auto trenutni = s.Pocetak(); trenutni != s.Kraj(); ++trenutni)
         cout << "element: " << trenutni->element << " ";
 
     // Brisanje nekih elemenata
