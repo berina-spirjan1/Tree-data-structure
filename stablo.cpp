@@ -156,16 +156,6 @@ void Stablo<Tip>::Erase(const Tip vrijednost) {
 }
 
 template<typename Tip>
-typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajmanjiCvor(Stablo::Cvor *cvor) {
-    if (cvor == nullptr) // ako je trenutni cvor nullptr, nema najmanjeg cvora, vraćamo nullptr
-        return nullptr;
-    Cvor *trenutni = cvor;  // postavljamo trenutni cvor kao pocetni cvor
-    while (trenutni->ld != nullptr)
-        trenutni = trenutni->ld; // prolazimo kroz lijevo podstablo dok ne dodjemo do najmanjeg cvora
-    return trenutni; // vracamo najmanji cvor
-}
-
-template<typename Tip>
 typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
     if (cvor == nullptr) //ako je trenutni cvor nullptr, nema najveceg cvora, vracamo nullptr
         return nullptr;
@@ -176,7 +166,7 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
 }
 
 template<typename Tip>
-bool provjeriDaLiJePodstablo(Stablo<Tip> &s1, Stablo<Tip> &s2) {
+bool provjeriDaLiJePodskup(Stablo<Tip> &s1, Stablo<Tip> &s2) {
     // provjeravamo da li jedan od korijena nullptr to znaci da sigurno ne moze biti podstablo
     if (s1.Korijen() == nullptr || s2.Korijen() == nullptr) {
         return false;

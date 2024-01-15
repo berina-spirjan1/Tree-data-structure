@@ -56,8 +56,6 @@ public:
         return korijen;
     };
 
-    Cvor *dajNajmanjiCvor(Cvor *);
-
     Cvor *dajNajveciCvor(Cvor *);
 
     Cvor *dajKtiElement(int pozicija, Cvor *trenutniCvor, int &brojac);
@@ -69,7 +67,7 @@ public:
     Tip operator[](int);
 
     template<typename Tip2>
-    friend bool provjeriDaLiJePodstablo(Stablo<Tip2> &s1, Stablo<Tip2> &s2);
+    friend bool provjeriDaLiJePodskup(Stablo<Tip2> &s1, Stablo<Tip2> &s2);
 };
 
 #include "stablo.cpp"

@@ -37,18 +37,17 @@ int main() {
     s.InOrder();
 
     Stablo<int> s2;
-    s2.Insert(15);
-    s2.Insert(17);
-    s2.Insert(18);
+    s2.Insert(30);
+    s2.Insert(20);
     s2.Insert(25);
-    s2.Insert(32);
+//    s2.Insert(25);
+//    s2.Insert(32);
 
     cout << "Drugo stablo: ";
     s2.InOrder();
-    cout <<"Trazim drugi element: "<<s2[4]<< endl;
+//    cout <<"Trazim drugi element: "<<s2[4]<< endl;
 
-    cout << "Funkcija provjeri Stablo: ";
-    cout << provjeriDaLiJePodstablo(s, s2);
+    cout <<endl<<"Da li je podstablo: "<< provjeriDaLiJePodstablo(s, s2)<<endl;
 
     //    cout << "prvi: "<<*iterator <<endl;
 //    cout <<"drugi: "<<*iterator++ <<endl;
@@ -61,8 +60,8 @@ int main() {
 
     //problem prilikom ispisivanja ne prolazi petlja da se pomice dalje.
 //    // ispisivanje u inorder poretku
-//    for (auto trenutni = s.Pocetak(); trenutni != s.Kraj(); trenutni++)
-//        cout << "element: " << trenutni->element << " ";
+    for (auto trenutni = s.Pocetak(); trenutni != s.Kraj(); trenutni++)
+        cout << "element: " << trenutni->element << " ";
 
     // Brisanje nekih elemenata
     s.Erase(20);
