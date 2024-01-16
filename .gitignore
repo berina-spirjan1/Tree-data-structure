@@ -1,0 +1,30 @@
+# Build files
+cmake-build-*/
+
+# Compiled files
+*.out
+*.app
+*.exe
+*.so
+*.dll
+
+# Object files
+*.o
+*.obj
+
+# Temporary files
+*.swp
+*~
+
+# CLion files
+.idea/
+
+# CMake files
+CMakeLists.txt.user
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
+
+# OS-specific files
+.DS_Store
+Thumbs.db

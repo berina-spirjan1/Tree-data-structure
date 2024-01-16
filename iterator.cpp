@@ -205,6 +205,16 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
     return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
 
+/**@brief Pronalazi najveći element u podstablu
+ * Pomiče iterator na najveći element u podstablu čvora na koji trenutno pokazuje.
+ *
+ * Ova funkcija pomjera Reverse_Iterator na najveći element unutar podstabla čvora
+ * na koji trenutno pokazuje. Prolazi kroz desnu granu podstabla dok ne pronađe
+ * najveći element, a zatim vraća novi Reverse_Iterator postavljen na taj element.
+ *
+ * @param cvor Pokazivač na trenutni čvor u stablu.
+ * @return Reverse_Iterator za najveći element u podstablu.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaGrani() {
     return pomjeriNaGrani([](Cvor *cvor) {
