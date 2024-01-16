@@ -63,7 +63,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cv
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
-    return pomjeriNaGrani([](Cvor *cvor){
+    return pomjeriNaGrani([](Cvor *cvor) {
         return cvor != nullptr ? cvor->dd : nullptr;
     }); //pomjeramo se na desno dijete od trenutnog cvora
 }
@@ -207,7 +207,9 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
 
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaGrani() {
-    return pomjeriNaGrani([](Cvor *cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
+    return pomjeriNaGrani([](Cvor *cvor) {
+        return cvor != nullptr ? cvor->dd : nullptr;
+    }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
 template<typename Tip>
@@ -224,7 +226,9 @@ Stablo<Tip>::Reverse_Iterator::pomjeriNaGrani(std::function<Cvor * (Cvor * )> fu
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNaGrani() {
     return pomjeriNaGrani(
-            [](Cvor *cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
+            [](Cvor *cvor) {
+                return cvor != nullptr ? cvor->ld : nullptr;
+            }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
 
