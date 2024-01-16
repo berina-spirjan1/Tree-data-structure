@@ -1,7 +1,4 @@
 # ninja log v5
-3	481	1705366676522616113	CMakeFiles/projekat.dir/iterator.cpp.o	348600f74b25e6e2
-598	725	1705366676769982814	projekat	306793cb7abdf406
-2	598	1705366676641989078	CMakeFiles/projekat.dir/main.cpp.o	1200d6fdce63c503
 1	248	1705437967695437551	CMakeFiles/projekat.dir/iterator.cpp.o	348600f74b25e6e2
-0	373	1705437967819154363	CMakeFiles/projekat.dir/main.cpp.o	1200d6fdce63c503
 373	426	1705437967872249080	projekat	306793cb7abdf406
+0	373	1705437967819154363	CMakeFiles/projekat.dir/main.cpp.o	1200d6fdce63c503
