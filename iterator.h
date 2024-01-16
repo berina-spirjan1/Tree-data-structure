@@ -9,7 +9,6 @@ class Stablo<Tip>::Iterator {
 
 public:
     Iterator(Cvor* trenutni = nullptr):trenutni(trenutni) {};
-    Iterator(const Iterator &it) : trenutni(it.trenutni) {};
     Iterator(Iterator* it){
         trenutni = new Cvor(it->trenutni->element, it->trenutni->rod, it->trenutni->ld, it->trenutni->dd);
     };
@@ -59,7 +58,9 @@ class Stablo<Tip>::Reverse_Iterator {
 public:
     Reverse_Iterator(Cvor *trenutni = nullptr) : trenutni(trenutni) {};
 
-    Reverse_Iterator(const Reverse_Iterator &it) : trenutni(it.trenutni) {}
+    Reverse_Iterator(Reverse_Iterator* it){
+        trenutni = new Cvor(it->trenutni->element, it->trenutni->rod, it->trenutni->ld, it->trenutni->dd);
+    };
 
     Reverse_Iterator &operator=(const Reverse_Iterator &it) {
         // provjeravamo da li se radi o dodjeli istog iteratora

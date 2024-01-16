@@ -95,9 +95,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
             this->trenutni = this->trenutni->rod;
         }
         // kada dodjemo do korijena, iterator ce pokazivati na null, inače idemo na roditelja trenutnog cvora
-        if (this->trenutni->rod == nullptr) {
-            return *this;
-        } else {
+        if (this->trenutni->rod != nullptr) {
             this->trenutni = this->trenutni->rod;
         }
     }
@@ -205,6 +203,15 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
     return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
 
+/**
+ * \brief Vraća iterator koji pokazuje na najveći element na trenutnoj grani stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bismo pronašli najveći element
+ * na trenutnoj grani binarnog stabla pretrage. Pomičemo iterator s trenutne pozicije na
+ * desno dijete trenutnog čvora (ukoliko postoji).
+ *
+ * \return Reverse_Iterator koji pokazuje na najveći element na trenutnoj grani.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaGrani() {
     return pomjeriNaGrani([](Cvor *cvor) {
@@ -212,6 +219,17 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaG
     }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
+/**
+ * \brief Pomičemo iterator na najmanji ili najveći element na trenutnoj grani stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bi iterator bio pomaknut
+ * na najmanji ili najveći element na trenutnoj grani binarnog stabla pretrage. Prolazimo
+ * kroz lijevo ili desno podstablo sve dok ne dođemo do najmanjeg ili najvećeg elementa.
+ *
+ * \param funkcijaPomjeranja Funkcija koja određuje smjer pomjeranja po grani (npr., lijevo ili desno).
+ *
+ * \return Promijenjeni Reverse_Iterator koji pokazuje na najmanji ili najveći element na trenutnoj grani.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator
 Stablo<Tip>::Reverse_Iterator::pomjeriNaGrani(std::function<Cvor * (Cvor * )> funkcijaPomjeranja) {
@@ -223,6 +241,16 @@ Stablo<Tip>::Reverse_Iterator::pomjeriNaGrani(std::function<Cvor * (Cvor * )> fu
     return *this; // vracamo promijenjeni iterator
 }
 
+/**
+ * \brief Pomičemo iterator na najmanji element na trenutnoj grani stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bi iterator bio pomaknut
+ * na najmanji element na trenutnoj grani binarnog stabla pretrage. Prolazimo kroz lijevo
+ * podstablo sve dok ne dođemo do najmanjeg elementa.
+ *
+ * \return Promijenjeni Reverse_Iterator koji pokazuje na najmanji element na trenutnoj grani.
+ */
+
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNaGrani() {
     return pomjeriNaGrani(
@@ -232,6 +260,17 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNa
 }
 
 
+/**
+ * \brief Povećava iterator na sledeći element u obrnutom poretku stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bi iterator bio povećan
+ * na sljedeći element u obrnutom poretku binarnog stabla pretrage. Ako trenutni čvor
+ * ima lijevo dijete, pomičemo se na najveći element u lijevom podstablu. Inače, vraćamo
+ * se prema roditeljskom čvoru sve dok ne pronađemo prvi čvor koji nije lijevo dijete
+ * svog roditelja.
+ *
+ * \return Promijenjeni Reverse_Iterator koji pokazuje na sljedeći element u obrnutom poretku.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++() {
     if (this->trenutni != nullptr) {
@@ -260,10 +299,23 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
     }
 }
 
+/**
+ * \brief Povećava iterator na sljedeći element u obrnutom poretku stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bi iterator bio povećan
+ * na sljedeći element u obrnutom poretku binarnog stabla pretrage. Ako trenutni čvor
+ * ima lijevo dijete, pomičemo se na njegovo dijete i zatim na najdesniji element u
+ * njegovom podstablu. Inače, vraćamo originalni iterator i pomjeramo trenutni iterator
+ * prema roditelju sve dok ne pronađemo prvi čvor koji nije lijevo dijete svog roditelja.
+ *
+ * \param int Dummy parametar (nije u upotrebi, koristi se samo za prepoznavanje postinkrementa).
+ *
+ * \return Originalni Reverse_Iterator prije povećanja.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++(int) {
     // kreiramo kopiju trenutnog iteratora
-    Reverse_Iterator kopija = *this;
+    Reverse_Iterator kopija(this);
 
     // ako trenutni čvor ima lijevo dijete, pomjeri se na njegovo dijete i zatim na najdesniji element u njegovom podstablu
     if (this->trenutni->ld != nullptr) {
@@ -287,45 +339,76 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
     }
 }
 
+/**
+ * \brief Smanjuje iterator na prethodni element u obrnutom poretku stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bi iterator bio smanjen
+ * na prethodni element u obrnutom poretku binarnog stabla pretrage. Ako trenutni čvor
+ * ima desno dijete, pomičemo se na najmanji element u desnom podstablu. Inače, vraćamo
+ * se prema roditeljskom čvoru sve dok ne pronađemo prvi čvor koji nije desno dijete
+ * svog roditelja.
+ *
+ * \return Promijenjeni Reverse_Iterator koji pokazuje na prethodni element u obrnutom poretku.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--() {
-    // ako postoji desno dijete, pomjeramo se na najmanji element u desnom podstablu
-    if (this->trenutni->dd != nullptr) {
-        this->trenutni = this->trenutni->dd;
-        this->najmanjiNaGrani();
-    } else {
-        // ako nema desnog djeteta, idi prema gore do prvog cvora koji je lijevo dijete svog roditelja
-        while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->dd) {
-            this->trenutni = this->trenutni->rod;
-        }
-        // ako smo došli do korijena, iterator će pokazivati na nullptr, inace idi na roditelja trenutnog cvora
-        if (this->trenutni->rod != nullptr) {
-            this->trenutni = this->trenutni->rod;
+    if (trenutni != nullptr) {
+        if (trenutni->dd != nullptr) {
+            // ako postoji desno dijete, pomjeramo se na najmanji element u desnom podstablu
+            trenutni = trenutni->dd;
+            najmanjiNaGrani();
+        } else {
+            // ako nema desnog djeteta, idemo prema gore do prvog čvora koji je lijevo dijete svog roditelja
+            while (trenutni->rod != nullptr && trenutni == trenutni->rod->dd) {
+                trenutni = trenutni->rod;
+            }
+            // ako smo došli do korijena, iterator će pokazivati na nullptr,
+            // inače idemo na roditelja trenutnog čvora.
+            if (trenutni->rod != nullptr) {
+                trenutni = trenutni->rod;
+            }
         }
     }
-    return *this;
+
+    return *this;  // vraćamo promijenjeni iterator
 }
 
-
+/**
+ * \brief Smanjuje iterator na prethodni element u obrnutom poretku stabla.
+ *
+ * Funkcija se koristi unutar Reverse_Iterator klase kako bi iterator bio smanjen
+ * na prethodni element u obrnutom poretku binarnog stabla pretrage. Ako trenutni čvor
+ * ima desno dijete, pomičemo se na najmanji element u desnom podstablu. Inače, vraćamo
+ * originalni iterator i pomjeramo trenutni iterator prema roditelju sve dok ne pronađemo
+ * prvi čvor koji nije desno dijete svog roditelja.
+ *
+ * \param int Dummy parametar (nije u upotrebi, koristi se samo za prepoznavanje postdekrementa).
+ *
+ * \return Originalni Reverse_Iterator prije smanjenja.
+ */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--(int) {
-    Reverse_Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
-    if (this->trenutni->ld != nullptr) {
-        // ako postoji lijevo dijete od trenutnog cvora, idemo na najveci element u lijevom podstablu
-        this->trenutni = this->trenutni->ld;
-        this->najveciNaGrani();
-    } else {
-        // ako nema lijevog djeteta, pomjeramo se prema roditelju od trenutnog cvora
-        // sve dok ne dodjemo do prvog desnog djeteta
-        while (this->trenutni->rod != nullptr && this->trenutni == this->trenutni->rod->ld) {
-            this->trenutni = this->trenutni->rod;
-        }
-        // kada dođemo do korijena iterator će pokazivati na nullptr, inace se pomjeramo na njegovog roditelja
-        if (this->trenutni->rod != nullptr) {
-            this->trenutni = this->trenutni->rod;
+    Reverse_Iterator kopija(*this);  // pravimo kopiju trenutnog iteratora
+
+    if (trenutni != nullptr) {
+        if (trenutni->dd != nullptr) {
+            // ako postoji desno dijete, pomjeramo se na najmanji element u desnom podstablu
+            trenutni = trenutni->dd;
+            najmanjiNaGrani();
+        } else {
+            // ako nema desnog djeteta, idemo prema gore do prvog čvora koji je lijevo dijete svog roditelja
+            while (trenutni->rod != nullptr && trenutni == trenutni->rod->dd) {
+                trenutni = trenutni->rod;
+            }
+            // ako smo došli do korijena, iterator će pokazivati na nullptr,
+            // inače idemo na roditelja trenutnog čvora.
+            if (trenutni->rod != nullptr) {
+                trenutni = trenutni->rod;
+            }
         }
     }
-    return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
+
+    return kopija;  // vraćamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
 
 

@@ -26,7 +26,7 @@ protected:
 
     int Visina(Cvor *) const;
 
-    Cvor* dajNajmanjiCvor(Cvor* cvor) const {
+    Cvor* dajNajmanjiCvor(Cvor* cvor) {
         while (cvor != nullptr && cvor->ld != nullptr) {
             cvor = cvor->ld;
         }
@@ -83,6 +83,15 @@ public:
     Iterator End() {
         return Iterator(dajNajveciCvor(korijen));
     }
+
+    Reverse_Iterator rBegin() {
+        return Reverse_Iterator(dajNajveciCvor(korijen));
+    }
+
+    Reverse_Iterator rEnd() {
+        return Reverse_Iterator(dajNajmanjiCvor(korijen));
+    }
+
 };
 
 #include "stablo.cpp"

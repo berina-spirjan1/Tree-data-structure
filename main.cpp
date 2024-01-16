@@ -55,20 +55,24 @@ int main() {
 //    cout <<"cetvrti: "<< *iterator-- <<endl;
 //    cout <<"peti: "<< *iterator << endl<<endl;
 //
-//    cout<<"Pocetak:"<<s.Begin()->element<<endl;
-//    cout<<"Kraj:"<<s.Kraj()->element<<endl;
+    cout<<"Pocetak:"<<*s.Begin()<<endl;
+    cout<<"Kraj:"<<*s.End()<<endl;
 
-    //problem prilikom ispisivanja ne prolazi petlja da se pomice dalje.
-//    // ispisivanje u inorder poretku
+    cout<<endl<<"Iterator prefix incrementing: ";
+    for (auto trenutni = s.Begin(); trenutni !=s.End(); ++trenutni)
+        cout << " " << *trenutni << " ";
+
+    cout<<endl<<"Iterator postfix incrementing: ";
     for (auto trenutni = s.Begin(); trenutni !=s.End(); trenutni++)
         cout << " " << *trenutni << " ";
 
+    cout<<endl;
     // Brisanje nekih elemenata
-    s.Erase(20);
-    s.Erase(30);
-    s.Erase(10);
+//    s.Erase(20);
+//    s.Erase(30);
+//    s.Erase(10);
 
-    Stablo<int>::Reverse_Iterator reverse_iterator(s.Kraj());
+    Stablo<int>::Reverse_Iterator reverse_iterator(s.rEnd());
 
     cout << "prvi: " << *reverse_iterator << endl;
     cout << "treci: " << *reverse_iterator++ << endl;
@@ -76,9 +80,30 @@ int main() {
     cout << "peti: " << *reverse_iterator-- << endl;
 
 
-    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
+    cout<<endl;
+    cout<<"Reverse iterator postfixni decrement: ";
+    for (auto trenutni = s.rEnd(); trenutni != s.rBegin(); trenutni--)
         cout << *trenutni << " ";
     cout << endl;
+
+    cout<<endl;
+    cout<<"Reverse iterator prefixni decrement: ";
+    for (auto trenutni = s.rEnd(); trenutni != s.rBegin(); --trenutni)
+        cout << *trenutni << " ";
+    cout << endl;
+
+    cout<<endl;
+    cout<<"Reverse iterator postfixni increment: ";
+    for (auto trenutni = s.rBegin(); trenutni != s.rEnd(); trenutni++)
+        cout << *trenutni << " ";
+    cout << endl;
+
+    cout<<endl;
+    cout<<"Reverse iterator prefixni increment: ";
+    for (auto trenutni = s.rBegin(); trenutni != s.rEnd(); ++trenutni)
+        cout << *trenutni << " ";
+    cout << endl;
+
 
     return 0;
 }

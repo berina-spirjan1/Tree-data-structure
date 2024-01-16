@@ -174,6 +174,7 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
     return trenutni; // vracamo najveci cvor
 }
 
+
 /**
  * @brief Provjerava da li je stablo s2 podskup stabla s1.
  *
