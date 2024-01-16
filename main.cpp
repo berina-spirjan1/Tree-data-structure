@@ -66,6 +66,14 @@ int main() {
     for (auto trenutni = s.Begin(); trenutni !=s.End(); trenutni++)
         cout << " " << *trenutni << " ";
 
+//    cout<<endl<<"Iterator prefix decrementing: ";
+//    for (auto trenutni = s.Begin(); trenutni !=s.End(); --trenutni)
+//        cout << " " << *trenutni << " ";
+
+//    cout<<endl<<"Iterator postfix decrementing: ";
+//    for (auto trenutni = s.Begin(); trenutni !=s.End(); trenutni--)
+//        cout << " " << *trenutni << " ";
+
     cout<<endl;
     // Brisanje nekih elemenata
 //    s.Erase(20);
