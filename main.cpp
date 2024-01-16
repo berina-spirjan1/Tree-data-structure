@@ -60,8 +60,8 @@ int main() {
 
     //problem prilikom ispisivanja ne prolazi petlja da se pomice dalje.
 //    // ispisivanje u inorder poretku
-    for (auto trenutni = s.Pocetak(); trenutni != s.Kraj(); ++trenutni)
-        cout << "element: " << trenutni->element << " ";
+    for (auto trenutni = s.Begin(); trenutni !=s.End(); trenutni++)
+        cout << " " << *trenutni << " ";
 
     // Brisanje nekih elemenata
     s.Erase(20);
@@ -76,9 +76,9 @@ int main() {
     cout << "peti: " << *reverse_iterator-- << endl;
 
 
-//    for (auto trenutni = s.Pocetak(); trenutni != s.Kraj(); trenutni++)
-//        cout << trenutni->element << " ";
-//    cout << endl;
+    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
+        cout << *trenutni << " ";
+    cout << endl;
 
     return 0;
 }

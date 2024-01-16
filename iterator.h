@@ -8,9 +8,11 @@ class Stablo<Tip>::Iterator {
     Cvor *trenutni;
 
 public:
-    Iterator(Cvor *trenutni = nullptr) : trenutni(trenutni) {}
-
-    Iterator(const Iterator &it) : trenutni(it.trenutni) {}
+    Iterator(Cvor* trenutni = nullptr):trenutni(trenutni) {};
+    Iterator(const Iterator &it) : trenutni(it.trenutni) {};
+    Iterator(Iterator* it){
+        trenutni = new Cvor(it->trenutni->element, it->trenutni->rod, it->trenutni->ld, it->trenutni->dd);
+    };
 
     Iterator &operator=(const Iterator &it) {
         // provjeravamo da li se radi o dodjeli istog iteratora

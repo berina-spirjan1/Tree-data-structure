@@ -26,6 +26,13 @@ protected:
 
     int Visina(Cvor *) const;
 
+    Cvor* dajNajmanjiCvor(Cvor* cvor) const {
+        while (cvor != nullptr && cvor->ld != nullptr) {
+            cvor = cvor->ld;
+        }
+        return cvor;
+    }
+
 public:
     Stablo() : n(0), korijen(nullptr) {}
 
@@ -68,6 +75,14 @@ public:
 
     template<typename Tip2>
     friend bool provjeriDaLiJePodskup(Stablo<Tip2> &s1, Stablo<Tip2> &s2);
+
+    Iterator Begin() {
+        return Iterator(dajNajmanjiCvor(korijen));
+    }
+
+    Iterator End() {
+        return Iterator(dajNajveciCvor(korijen));
+    }
 };
 
 #include "stablo.cpp"

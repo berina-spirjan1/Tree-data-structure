@@ -3,8 +3,6 @@
 
 #include "iterator.h"
 #include "stablo.h"
-#include <iostream>
-
 
 /**
  * @brief Iterator na najmanji element u podstablu trenutnog čvora.
@@ -21,7 +19,9 @@
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
     return pomjeriNaGrani(
-            [](Cvor *cvor) { return cvor->ld; }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
+            [](Cvor *cvor) {
+                return cvor != nullptr ? cvor->ld : nullptr;
+            }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
 /**
@@ -63,7 +63,9 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cv
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
-    return pomjeriNaGrani([](Cvor *cvor) { return cvor->dd; }); //pomjeramo se na desno dijete od trenutnog cvora
+    return pomjeriNaGrani([](Cvor *cvor){
+        return cvor != nullptr ? cvor->dd : nullptr;
+    }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
 
@@ -119,7 +121,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
-    Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
+    Iterator kopija(this);  // pravimo kopiju trenutnog iteratora
     if (this->trenutni->dd != nullptr) {
         // Ako postoji desno dijete od trenutnog cvora, idemo na najmanji element u desnom podstablu
         this->trenutni = this->trenutni->dd;
@@ -184,7 +186,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
-    Iterator kopija = *this;  // pravimo kopiju trenutnog iteratora
+    Iterator kopija(this);  // pravimo kopiju trenutnog iteratora
     if (this->trenutni->ld != nullptr) {
         // ako postoji lijevo dijete od trenutnog cvora, idemo na najveci element u lijevom podstablu
         this->trenutni = this->trenutni->ld;
