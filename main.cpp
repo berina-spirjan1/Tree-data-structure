@@ -63,7 +63,7 @@ int main() {
     cout << endl << "Da li je podstablo: " << provjeriDaLiJePodskup(s, s2) << endl;
 //
     cout << "Pocetak:" << *s.Begin() << endl;
-    cout << "Kraj:" << *s.End() << endl;
+//    cout << "Element prije kraja: " <<*s.End() << endl;
 
     cout << endl << "Iterator prefix incrementing:";
     for (auto trenutni = s.Begin(); trenutni != s.End(); ++trenutni) {
@@ -74,13 +74,13 @@ int main() {
     for (auto trenutni = s.Begin(); trenutni != s.End(); trenutni++)
         cout << " " << *trenutni << " ";
 
-    cout << endl << "Iterator prefix decrementing:";
-    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
-        cout << " " << *trenutni << " ";
+//    cout << endl << "Iterator prefix decrementing:";
+//    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
+//        cout << " " << *trenutni << " ";
 
-    cout << endl << "Iterator postfix decrementing:";
-    for (auto trenutni = s.End(); trenutni != s.Begin(); trenutni--)
-        cout << " " << *trenutni << " ";
+//    cout << endl << "Iterator postfix decrementing:";
+//    for (auto trenutni = s.End(); trenutni != s.Begin(); trenutni--)
+//        cout << " " << *trenutni << " ";
 
     cout << endl;
     // Brisanje nekih elemenata
@@ -100,10 +100,10 @@ int main() {
     for (auto trenutni = s.rEnd(); trenutni != s.rBegin(); --trenutni)
         cout << *trenutni << " ";
 
-    cout << endl;
-    cout << "Reverse iterator postfixni increment:";
-    for (auto trenutni = s.rBegin(); trenutni != s.rEnd(); trenutni++)
-        cout << *trenutni << " ";
+//    cout << endl;
+//    cout << "Reverse iterator postfixni increment:";
+//    for (auto trenutni = s.rBegin(); trenutni != s.rEnd(); trenutni++)
+//        cout << *trenutni << " ";
 
     cout << endl;
     cout << "Reverse iterator prefixni increment:";

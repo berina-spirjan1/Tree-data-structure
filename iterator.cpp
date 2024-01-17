@@ -20,7 +20,7 @@ template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najmanjiNaGrani() {
     return pomjeriNaGrani(
             [](Cvor *cvor) {
-                return cvor != nullptr ? cvor->ld : nullptr;
+                return cvor != nullptr && cvor->ld != nullptr ? cvor->ld : nullptr;
             }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
@@ -64,7 +64,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::pomjeriNaGrani(function<Cv
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
     return pomjeriNaGrani([](Cvor *cvor) {
-        return cvor != nullptr ? cvor->dd : nullptr;
+        return cvor != nullptr && cvor->dd != nullptr ? cvor->dd : nullptr;
     }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
@@ -85,7 +85,10 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
-
+    if (trenutni == nullptr) {
+        // Ako je trenutni nullptr, ne možemo napraviti nikakav korak
+        return *this;
+    }
     if (trenutni->dd != nullptr) {
         // Ako postoji desno dijete, idemo na najmanji element u desnom podstablu
         trenutni = trenutni->dd;
@@ -98,9 +101,12 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
         // kada dodjemo do korijena, iterator ce pokazivati na null, inače idemo na roditelja trenutnog cvora
         if (trenutni->rod != nullptr) {
             trenutni = trenutni->rod;
+        } else {
+            // Ako smo došli do korijena, postavljamo iterator na nullptr
+            trenutni = nullptr;
         }
     }
-    return this;
+    return *this;
 }
 
 /**
@@ -121,6 +127,12 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
     Iterator kopija(this);  // pravimo kopiju trenutnog iteratora
+
+    if (trenutni == nullptr) {
+        // Ako je trenutni nullptr, ne možemo napraviti nikakav korak
+        return kopija;
+    }
+
     if (trenutni->dd != nullptr) {
         // Ako postoji desno dijete od trenutnog cvora, idemo na najmanji element u desnom podstablu
         trenutni = trenutni->dd;
@@ -134,10 +146,13 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
         // kada dodjemo do korijena iterator ce pokazivati na nullptr, inace se pomjeramo na njegovog roditelja
         if (trenutni->rod != nullptr) {
             trenutni = trenutni->rod;
+        } else {
+            trenutni = nullptr;
         }
     }
     return kopija;  // vracamo kopiju prvobitnog iteratora koja je sada modifikovana
 }
+
 
 /**
  * @brief Operator prefiksnog dekrementiranja za klasu Iterator.
@@ -153,22 +168,30 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
+    cout << trenutni;
     if (trenutni->ld != nullptr) {
-        // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
+        // Ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
         trenutni = trenutni->ld;
         najveciNaGrani();
     } else {
-        // ako nema lijevog djeteta,pomjerimo se ka roditelju sve dok ne nadjemo prvo desno dijete
+        // Ako nema lijevog djeteta, pomjerimo se ka roditelju sve dok ne nadjemo prvo desno dijete
         while (trenutni->rod != nullptr && trenutni == trenutni->rod->ld) {
             trenutni = trenutni->rod;
         }
-        // kada dodjemo do korijena, iterator će pokazivati na nullptr, inace se pomjeramo na roditelja trenutnog cvora
+        // Ako dođemo do korijena, iterator će pokazivati na nullptr
+        // ili se pomjeramo unatrag da bismo pokazivali na posljednji stvarni element
         if (trenutni->rod != nullptr) {
             trenutni = trenutni->rod;
+            najveciNaGrani();
+        } else {
+            // Ako trenutni iterator pokazuje na nullptr (kraj), pomaknite ga unatrag za jedno mjesto
+            // ili postavite na posljednji stvarni element
+            trenutni = najveciNaGrani().trenutni;
         }
     }
     return *this;
 }
+
 
 /**
  * @brief Operator postfiksnog dekrementiranja za klasu Iterator.
@@ -216,7 +239,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najveciNaGrani() {
     return pomjeriNaGrani([](Cvor *cvor) {
-        return cvor != nullptr ? cvor->dd : nullptr;
+        return cvor != nullptr && cvor->dd != nullptr ? cvor->dd : nullptr;
     }); //pomjeramo se na desno dijete od trenutnog cvora
 }
 
@@ -256,7 +279,7 @@ template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNaGrani() {
     return pomjeriNaGrani(
             [](Cvor *cvor) {
-                return cvor != nullptr ? cvor->ld : nullptr;
+                return cvor != nullptr && cvor->ld != nullptr ? cvor->ld : nullptr;
             }); //pomjeramo se svaki put na lijevo dijete od trenutnog cvora
 }
 
@@ -353,6 +376,8 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
  */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--() {
+    if (trenutni == nullptr)
+        return *this;
     if (trenutni != nullptr) {
         if (trenutni->dd != nullptr) {
             // ako postoji desno dijete, pomjeramo se na najmanji element u desnom podstablu
@@ -367,6 +392,8 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--
             // inače idemo na roditelja trenutnog čvora.
             if (trenutni->rod != nullptr) {
                 trenutni = trenutni->rod;
+            } else {
+                trenutni = nullptr;
             }
         }
     }
@@ -391,6 +418,9 @@ template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--(int) {
     Reverse_Iterator kopija(*this);  // pravimo kopiju trenutnog iteratora
 
+    if (trenutni == nullptr)
+        return kopija;
+
     if (trenutni != nullptr) {
         if (trenutni->dd != nullptr) {
             // ako postoji desno dijete, pomjeramo se na najmanji element u desnom podstablu
@@ -405,6 +435,8 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator--
             // inače idemo na roditelja trenutnog čvora.
             if (trenutni->rod != nullptr) {
                 trenutni = trenutni->rod;
+            } else {
+                trenutni = nullptr;
             }
         }
     }

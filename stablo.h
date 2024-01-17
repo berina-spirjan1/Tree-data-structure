@@ -50,10 +50,6 @@ public:
 
     Cvor *Sljedbenik(Cvor *cvor) const;
 
-    Cvor *Kraj() {
-        return dajNajveciCvor(korijen);
-    };
-
     Cvor *Korijen() {
         return korijen;
     };
@@ -76,11 +72,11 @@ public:
     }
 
     Iterator End() {
-        return Iterator(dajNajveciCvor(korijen));
+        return Iterator();
     }
 
     Reverse_Iterator rBegin() {
-        return Reverse_Iterator(dajNajveciCvor(korijen));
+        return Reverse_Iterator();
     }
 
     Reverse_Iterator rEnd() {
