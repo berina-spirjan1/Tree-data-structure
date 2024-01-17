@@ -174,6 +174,25 @@ typename Stablo<Tip>::Cvor *Stablo<Tip>::dajNajveciCvor(Stablo::Cvor *cvor) {
     return trenutni; // vracamo najveci cvor
 }
 
+/**
+ * @brief Dohvata najmanji čvor u podstablu sa trenutnim čvorom kao početkom.
+ *
+ * Metoda `dajNajmanjiCvor` traži najmanji čvor u stablu sa trenutnim čvorom kao početkom.
+ * Implementacija metode koristi iterativni pristup, pretražujući lijevo podstablo
+ * sve dok ne dođe do najmanjeg čvora.
+ *
+ * @param cvor Pokazivač na trenutni čvor, početak pretrage.
+ * @return Pokazivač na najmanji čvor u podstablu ili nullptr ako je stablo prazno.
+ */
+template <typename Tip>
+typename Stablo<Tip>::Cvor* Stablo<Tip>::dajNajmanjiCvor(Stablo::Cvor *cvor) {
+    if(cvor == nullptr)
+        return nullptr;
+    Cvor *trenutni = cvor;
+    while(trenutni->ld != nullptr)
+        trenutni = trenutni->ld;
+    return trenutni;
+}
 
 /**
  * @brief Provjerava da li je stablo s2 podskup stabla s1.

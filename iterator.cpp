@@ -85,10 +85,11 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::najveciNaGrani() {
  */
 template<typename Tip>
 typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++() {
+
     if (trenutni->dd != nullptr) {
         // Ako postoji desno dijete, idemo na najmanji element u desnom podstablu
         trenutni = trenutni->dd;
-        this->najmanjiNaGrani();
+        najmanjiNaGrani();
     } else {
         // Ako nema desnog djeteta, idemo prema roditelju dok ne pronadjemo prvo lijevo dijete
         while (trenutni->rod != nullptr && trenutni == trenutni->rod->dd) {
@@ -123,7 +124,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator++(int) {
     if (trenutni->dd != nullptr) {
         // Ako postoji desno dijete od trenutnog cvora, idemo na najmanji element u desnom podstablu
         trenutni = trenutni->dd;
-        this->najmanjiNaGrani();
+        najmanjiNaGrani();
     } else {
         // Ako nema desnog djeteta, pomjeramo se na roditelja od trenutnog cvora
         // sve dok ne dodjemo do prvog lijevog djeteta
@@ -155,7 +156,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--() {
     if (trenutni->ld != nullptr) {
         // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
         trenutni = trenutni->ld;
-        this->najveciNaGrani();
+        najveciNaGrani();
     } else {
         // ako nema lijevog djeteta,pomjerimo se ka roditelju sve dok ne nadjemo prvo desno dijete
         while (trenutni->rod != nullptr && trenutni == trenutni->rod->ld) {
@@ -188,7 +189,7 @@ typename Stablo<Tip>::Iterator Stablo<Tip>::Iterator::operator--(int) {
     if (trenutni->ld != nullptr) {
         // ako postoji lijevo dijete od trenutnog cvora, idemo na najveci element u lijevom podstablu
         trenutni = trenutni->ld;
-        this->najveciNaGrani();
+        najveciNaGrani();
     } else {
         // ako nema lijevog djeteta, pomjeramo se prema roditelju od trenutnog cvora
         // sve dok ne dodjemo do prvog desnog djeteta
@@ -277,7 +278,7 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
         if (trenutni->ld != nullptr) {
             // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
             trenutni = trenutni->ld;
-            this->najveciNaGrani();  // funkcija koja postavlja iterator na najveci element u podstablu
+            najveciNaGrani();  // funkcija koja postavlja iterator na najveci element u podstablu
             return *this;
         }
         while (trenutni->rod != nullptr && trenutni == trenutni->rod->ld) {
@@ -320,7 +321,7 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++
     // ako trenutni čvor ima lijevo dijete, pomjeri se na njegovo dijete i zatim na najdesniji element u njegovom podstablu
     if (trenutni->ld != nullptr) {
         trenutni = trenutni->ld;
-        this->najveciNaGrani();
+        najveciNaGrani();
         return kopija;
     }
 

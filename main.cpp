@@ -34,6 +34,19 @@ int main() {
     s.Insert(17);
     s.Insert(18);
 
+//    s.Insert(11);
+//    s.Insert(10);
+//    s.Insert(9);
+//    s.Insert(8);
+//    s.Insert(7);
+//    s.Insert(6);
+//    s.Insert(56);
+//    s.Insert(5);
+//    s.Insert(4);
+//    s.Insert(3);
+//    s.Insert(2);
+//    s.Insert(1);
+
     s.InOrder();
 
     Stablo<int> s2;
@@ -43,38 +56,33 @@ int main() {
 //    s2.Insert(25);
 //    s2.Insert(32);
 
-    cout << "Drugo stablo: ";
-    s2.InOrder();
-//    cout <<"Trazim drugi element: "<<s2[4]<< endl;
+//    cout << "Drugo stablo: ";
+//    s2.InOrder();
+//    cout <<"Trazim drugi element: "<<s2[2]<< endl;
 
-    cout <<endl<<"Da li je podstablo: "<< provjeriDaLiJePodskup(s, s2)<<endl;
-
-    //    cout << "prvi: "<<*iterator <<endl;
-//    cout <<"drugi: "<<*iterator++ <<endl;
-//    cout <<"treci: " <<*iterator++ <<endl;
-//    cout <<"cetvrti: "<< *iterator-- <<endl;
-//    cout <<"peti: "<< *iterator << endl<<endl;
+    cout << endl << "Da li je podstablo: " << provjeriDaLiJePodskup(s, s2) << endl;
 //
-    cout<<"Pocetak:"<<*s.Begin()<<endl;
-    cout<<"Kraj:"<<*s.End()<<endl;
+    cout << "Pocetak:" << *s.Begin() << endl;
+    cout << "Kraj:" << *s.End() << endl;
 
-    cout<<endl<<"Iterator prefix incrementing: ";
-    for (auto trenutni = s.Begin(); trenutni !=s.End(); ++trenutni)
+    cout << endl << "Iterator prefix incrementing:";
+    for (auto trenutni = s.Begin(); trenutni != s.End(); ++trenutni) {
+        cout << " " << *trenutni << " ";
+    }
+
+    cout << endl << "Iterator postfix incrementing:";
+    for (auto trenutni = s.Begin(); trenutni != s.End(); trenutni++)
         cout << " " << *trenutni << " ";
 
-    cout<<endl<<"Iterator postfix incrementing: ";
-    for (auto trenutni = s.Begin(); trenutni !=s.End(); trenutni++)
+    cout << endl << "Iterator prefix decrementing:";
+    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
         cout << " " << *trenutni << " ";
 
-    cout<<endl<<"Iterator prefix decrementing: ";
-    for (auto trenutni = s.End(); trenutni !=s.Begin(); --trenutni)
+    cout << endl << "Iterator postfix decrementing:";
+    for (auto trenutni = s.End(); trenutni != s.Begin(); trenutni--)
         cout << " " << *trenutni << " ";
 
-    cout<<endl<<"Iterator postfix decrementing: ";
-    for (auto trenutni = s.End(); trenutni !=s.Begin(); trenutni--)
-        cout << " " << *trenutni << " ";
-
-    cout<<endl;
+    cout << endl;
     // Brisanje nekih elemenata
 //    s.Erase(20);
 //    s.Erase(30);
@@ -82,32 +90,23 @@ int main() {
 
     Stablo<int>::Reverse_Iterator reverse_iterator(s.rEnd());
 
-    cout << "prvi: " << *reverse_iterator << endl;
-    cout << "treci: " << *reverse_iterator++ << endl;
-    cout << "cetvrti: " << *reverse_iterator-- << endl;
-    cout << "peti: " << *reverse_iterator-- << endl;
-
-
-    cout<<endl;
-    cout<<"Reverse iterator postfixni decrement: ";
+    cout << endl;
+    cout << "Reverse iterator postfixni decrement:";
     for (auto trenutni = s.rEnd(); trenutni != s.rBegin(); trenutni--)
         cout << *trenutni << " ";
-    cout << endl;
 
-    cout<<endl;
-    cout<<"Reverse iterator prefixni decrement: ";
+    cout << endl;
+    cout << "Reverse iterator prefixni decrement:";
     for (auto trenutni = s.rEnd(); trenutni != s.rBegin(); --trenutni)
         cout << *trenutni << " ";
-    cout << endl;
 
-    cout<<endl;
-    cout<<"Reverse iterator postfixni increment: ";
+    cout << endl;
+    cout << "Reverse iterator postfixni increment:";
     for (auto trenutni = s.rBegin(); trenutni != s.rEnd(); trenutni++)
         cout << *trenutni << " ";
-    cout << endl;
 
-    cout<<endl;
-    cout<<"Reverse iterator prefixni increment: ";
+    cout << endl;
+    cout << "Reverse iterator prefixni increment:";
     for (auto trenutni = s.rBegin(); trenutni != s.rEnd(); ++trenutni)
         cout << *trenutni << " ";
     cout << endl;

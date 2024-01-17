@@ -26,12 +26,7 @@ protected:
 
     int Visina(Cvor *) const;
 
-    Cvor* dajNajmanjiCvor(Cvor* cvor) {
-        while (cvor != nullptr && cvor->ld != nullptr) {
-            cvor = cvor->ld;
-        }
-        return cvor;
-    }
+    Cvor* dajNajmanjiCvor(Cvor* cvor);
 
 public:
     Stablo() : n(0), korijen(nullptr) {}
