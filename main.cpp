@@ -74,9 +74,9 @@ int main() {
     for (auto trenutni = s.Begin(); trenutni != s.End(); trenutni++)
         cout << " " << *trenutni << " ";
 
-//    cout << endl << "Iterator prefix decrementing:";
-//    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
-//        cout << " " << *trenutni << " ";
+    cout << endl << "Iterator prefix decrementing:";
+    for (auto trenutni = s.End(); trenutni != s.Begin(); --trenutni)
+        cout << " " << *trenutni << " ";
 
 //    cout << endl << "Iterator postfix decrementing:";
 //    for (auto trenutni = s.End(); trenutni != s.Begin(); trenutni--)

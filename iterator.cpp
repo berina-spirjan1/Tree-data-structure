@@ -297,6 +297,9 @@ typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::najmanjiNa
  */
 template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++() {
+    if(trenutni== nullptr)
+        return *this;
+
     if (trenutni != nullptr) {
         if (trenutni->ld != nullptr) {
             // ako postoji lijevo dijete, idemo na najveci element u lijevom podstablu
@@ -340,6 +343,9 @@ template<typename Tip>
 typename Stablo<Tip>::Reverse_Iterator Stablo<Tip>::Reverse_Iterator::operator++(int) {
     // kreiramo kopiju trenutnog iteratora
     Reverse_Iterator kopija(this);
+
+    if(trenutni== nullptr)
+        return kopija;
 
     // ako trenutni čvor ima lijevo dijete, pomjeri se na njegovo dijete i zatim na najdesniji element u njegovom podstablu
     if (trenutni->ld != nullptr) {
